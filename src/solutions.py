@@ -109,6 +109,6 @@ def optimal_solution(elements: List[int], capacity: int) -> List[List[int]]:
 
 
 def decreasing_version(which_one: Callable, elements: List[int], capacity: int) -> List[List[int]]:
-    """Decreasing versions of algorithms"""
+    """'Decreasing' versions of algorithms."""
     elements = sorted(elements, reverse=True)
     return which_one(elements, capacity)
