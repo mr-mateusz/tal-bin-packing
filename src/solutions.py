@@ -1,5 +1,5 @@
 from itertools import permutations
-from typing import List
+from typing import List, Callable
 
 from src.bin import Bin
 
@@ -62,7 +62,7 @@ def worst_fit(elements: List[int], capacity: int) -> List[List[int]]:
     bins = [Bin()]
     for element in elements:
         candidate = -1
-        candidate_will_be_taken = capacity
+        candidate_will_be_taken = capacity + 1  # to ensure that first bin that will be full will be taken
         for index, bn in enumerate(bins):
             will_be_taken = bn.cap_taken + element
             if will_be_taken < candidate_will_be_taken:
@@ -76,6 +76,11 @@ def worst_fit(elements: List[int], capacity: int) -> List[List[int]]:
             bins.append(new_bin)
 
     return [bn.elements for bn in bins]
+
+
+def almost_worst_fit(elements: List[int], capacity: int) -> List[List[int]]:
+    """Put new object into the second emptiest bin with enough space."""
+    pass  # todo
 
 
 def next_fit(elements: List[int], capacity: int) -> List[List[int]]:
@@ -102,3 +107,8 @@ def optimal_solution(elements: List[int], capacity: int) -> List[List[int]]:
 
     return best_sol
 
+
+def decreasing_version(which_one: Callable, elements: List[int], capacity: int) -> List[List[int]]:
+    """Decreasing versions of algorithms"""
+    elements = sorted(elements, reverse=True)
+    return which_one(elements, capacity)
