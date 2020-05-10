@@ -1,25 +1,63 @@
-import random
-from itertools import permutations
+import argparse
+import os
 
-# elements = [random.randint(1, 5) for _ in range(11)]
 
-bin_size = 10
+def main():
+    ap = argparse.ArgumentParser(description="Bin packing problem solver",
+                                 epilog="Tal 2020")
 
-elements = [9, 7, 6, 5, 1, 3, 4, 2, 1, 2]
+    ap.add_argument('mode',
+                    metavar='mode',
+                    type=str.lower,
+                    choices=['f', 'c', 'g'],
+                    help='Input data mode. Console/File/Generate: F/C/G')
 
-random.shuffle(elements)
+    ap.add_argument('output',
+                    metavar='output',
+                    type=str,
+                    help='path to output directory')
 
-print(elements)
+    ap.add_argument('--input',
+                    type=str,
+                    action='store',
+                    help='input file')
 
-best_sol = None
-for elements in permutations(elements):
-    bins = [[]]
-    for element in elements:
-        if sum(bins[-1]) + element <= bin_size:
-            bins[-1].append(element)
-        else:
-            bins.append([element])
-    if best_sol is None or len(bins) < len(best_sol):
-        best_sol = bins
+    ap.add_argument('--capacity',
+                    type=int,
+                    action='store',
+                    help='bins capacity')
 
-print(best_sol)
+    ap.add_argument('--elements',
+                    type=int,
+                    action='store',
+                    help='elements',
+                    nargs='+')
+
+    ap.add_argument('--size',
+                    type=int,
+                    action='store',
+                    help='problem size',
+                    nargs='+')
+
+    ap.add_argument('--runs',
+                    type=int,
+                    action='store',
+                    help='number of runs for each problem size')
+
+    ap.add_argument('--distribution',
+                    type=str,
+                    action='store',
+                    help='path to file with distribution that will be used to generate data')
+
+    args = ap.parse_args()
+
+    if not os.path.isdir(args.output):
+        print(f"Invalid output directory path: {args.output}")
+        exit()
+
+    print(vars(args))
+    print(args.output)
+
+
+if __name__ == '__main__':
+    main()

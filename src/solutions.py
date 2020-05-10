@@ -1,7 +1,7 @@
 from itertools import permutations
 from typing import List, Callable
 
-from src.bin import Bin
+from bin import Bin
 
 
 def first_fit(elements: List[int], capacity: int) -> List[List[int]]:

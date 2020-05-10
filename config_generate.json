@@ -1,0 +1,8 @@
+{
+  "bins_capacity": 10,
+  "problem_sizes": [1,2,3,4,5,6,7,8,9,10,11,12],
+  "number_of_runs": 3,
+  "algorithms": ["opt", "nf", "ff", "lf", "bf", "wf"],
+  "distribution_file": "distrib.txt",
+  "output_directory": "res"
+}
