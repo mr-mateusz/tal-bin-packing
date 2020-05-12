@@ -1,9 +1,13 @@
 import argparse
 import json
+import math
 from typing import List
+
+import matplotlib.pyplot as plt
 
 import solutions
 from generator import cumulate, inverse_transform_sampling, generate_data
+from helpers.decorators import run_and_capture_time
 
 
 def load_distribution(distrib_file: str):
@@ -64,19 +68,31 @@ def main():
         # 'nfd','ffd', 'lfd', 'bfd', 'wfd'
     }
 
-    for size in params['problem_sizes']:
-        print("------")
+    try:
+        sizes = params['problem_sizes']
+    except KeyError:
+        sizes = range(params['problem_size_from'], params['problem_size_to'])
+
+    durs = []
+    for size in sizes:
+        #        print("------")
         print(f"Problem size: {size}")
         for run in range(params['number_of_runs']):
-            print(f"Run {run + 1}/{params['number_of_runs']}")
+            #            print(f"Run {run + 1}/{params['number_of_runs']}")
             generated = generate(size, params['bins_capacity'], params['cumulated_distr'])
 
-            print(f"Generated data: {generated}")
+            #            print(f"Generated data: {generated}")
 
             for alg in params['algorithms']:
-                res = algs_mapping[alg](generated, params['bins_capacity'])
-                print(f"Algorithm: {alg}")
-                print(res)
+                duration, res = run_and_capture_time(algs_mapping[alg], generated, params['bins_capacity'])
+                #                print(f"Algorithm: {alg}. Duration [ms] = {duration * 1000}")
+                #                print(res)
+                durs.append(duration)
+
+    tmp = [0.000002 * n * math.log2(n) for n in sizes]
+    plt.plot(durs)
+    plt.plot(tmp)
+    plt.show()
 
 
 if __name__ == '__main__':
