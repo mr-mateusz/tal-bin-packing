@@ -78,11 +78,6 @@ def worst_fit(elements: List[int], capacity: int) -> List[List[int]]:
     return [bn.elements for bn in bins]
 
 
-def almost_worst_fit(elements: List[int], capacity: int) -> List[List[int]]:
-    """Put new object into the second emptiest bin with enough space."""
-    pass  # todo
-
-
 def next_fit(elements: List[int], capacity: int) -> List[List[int]]:
     """Put element into last bin, start new if bin if necessary."""
     bins = [Bin()]
@@ -112,3 +107,23 @@ def decreasing_version(which_one: Callable, elements: List[int], capacity: int) 
     """'Decreasing' versions of algorithms."""
     elements = sorted(elements, reverse=True)
     return which_one(elements, capacity)
+
+
+def first_fit_decreasing(elements: List[int], capacity: int) -> List[List[int]]:
+    return decreasing_version(first_fit, elements, capacity)
+
+
+def last_fit_decreasing(elements: List[int], capacity: int) -> List[List[int]]:
+    return decreasing_version(last_fit, elements, capacity)
+
+
+def best_fit_decreasing(elements: List[int], capacity: int) -> List[List[int]]:
+    return decreasing_version(best_fit, elements, capacity)
+
+
+def worst_fit_decreasing(elements: List[int], capacity: int) -> List[List[int]]:
+    return decreasing_version(worst_fit, elements, capacity)
+
+
+def next_fit_decreasing(elements: List[int], capacity: int) -> List[List[int]]:
+    return decreasing_version(next_fit, elements, capacity)
