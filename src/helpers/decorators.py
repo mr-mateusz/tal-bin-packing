@@ -11,12 +11,12 @@ def run_and_capture_time(function: Callable, *args, **kwargs) -> Tuple[float, An
         **kwargs: will be passed to function
 
     Returns:
-        (duration [s], function result)
+        (duration [ms], function result)
     """
     start_time = time()
 
     res = function(*args, **kwargs)
 
-    duration = time() - start_time
+    duration = (time() - start_time) * 1000
 
     return duration, res

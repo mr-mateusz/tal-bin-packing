@@ -2,9 +2,8 @@
   "bins_capacity": 10,
 
   "problem_size_from": 1,
-  "problem_size_to": 1500,
-  "number_of_runs": 1,
-  "algorithms": ["ff"],
+  "problem_size_to": 1000,
+  "algorithms": ["nf", "ff", "lf", "bf", "wf"],
   "distribution_file": "distrib.txt",
-  "output_directory": "res"
+  "type": "elementary"
 }

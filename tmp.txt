@@ -1,4 +1,4 @@
 "distribution_file": "distrib.txt",
-  "problem_sizes": [1,2,3,4,5,6,7,8,9,10,11,12],
+    "problem_sizes": [1,2,3,4,5,6,7,8,9,10,11],
 
 "algorithms": ["nf", "ff", "lf", "bf", "wf"],
