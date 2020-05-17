@@ -2,7 +2,7 @@ import random
 from typing import List
 
 
-def generate_data(n: int, max_value: int) -> List[int]:
+def generate_uniform(n: int, max_value: int) -> List[int]:
     return [random.randint(1, max_value) for _ in range(n)]
 
 

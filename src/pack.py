@@ -69,6 +69,9 @@ def visualise_and_save_bins(bins: List[List[int]], output_file: str, title: str)
 def main():
     args = get_args()
 
+    memory_taken_opt = 0
+    memory_taken_app = 0
+
     if args.time:
         complexity_unit = 'time [ms]'
         duration_opt, res_opt = run_and_capture_time(mappings.time_algs_mapping['opt'],
@@ -80,17 +83,23 @@ def main():
                                                      args.capacity)
     else:
         complexity_unit = 'Elementary steps'
-        duration_opt, res_opt = mappings.elementary_steps_algs_mapping['opt'](args.elements, args.capacity)
+        duration_opt, memory_taken_opt, res_opt = mappings.elementary_steps_algs_mapping['opt'](args.elements,
+                                                                                                args.capacity)
 
-        duration_app, res_app = mappings.elementary_steps_algs_mapping[args.algorithm](args.elements, args.capacity)
+        duration_app, memory_taken_app, res_app = mappings.elementary_steps_algs_mapping[args.algorithm](args.elements,
+                                                                                                         args.capacity)
 
     print(f'Solve bin packing problem with optimal and chosen approximate algorithm.')
     print(f'Algorithms: opt, {args.algorithm}')
     print(f'Capacity: {args.capacity}')
     print(f'Elements: {args.elements}')
     print(f'Optimal solution. {complexity_unit.title()}: {duration_opt}. Bins: {len(res_opt)}')
+    if memory_taken_opt:
+        print(f"Memory taken: {memory_taken_opt}")
     print(res_opt)
     print(f'Approximate solution. {complexity_unit.title()}: {duration_app}. Bins: {len(res_app)}')
+    if memory_taken_app:
+        print(f"Memory taken: {memory_taken_app}")
     print(res_app)
     print(f'Approximate solution len/optimal solution len: {len(res_app)}/{len(res_opt)}={len(res_app) / len(res_opt)}')
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.generator import cumulate, inverse
+from generator import cumulate, inverse
 
 
 def test_cumulate():

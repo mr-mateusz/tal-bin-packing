@@ -1,6 +1,6 @@
 from math import ceil
 
-from src.solutions import next_fit, optimal_solution, first_fit, last_fit, best_fit, worst_fit, decreasing_version
+from solutions import next_fit, optimal_solution, first_fit, last_fit, best_fit, worst_fit, decreasing_version
 
 to_test = [9, 7, 6, 1, 4, 3]
 cap = 10

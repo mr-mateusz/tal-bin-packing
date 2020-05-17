@@ -4,7 +4,7 @@ from typing import List, Dict, Tuple
 
 import matplotlib.pyplot as plt
 
-from generator import cumulate, inverse_transform_sampling, generate_data
+from generator import cumulate, inverse_transform_sampling, generate_uniform
 from helpers import mappings
 from helpers.decorators import run_and_capture_time
 
@@ -67,10 +67,10 @@ def get_args() -> argparse.Namespace:
 def generate(size: int, max_value: int, distribution: List) -> List[int]:
     if distribution:
         return inverse_transform_sampling(size, distribution, already_cumulated=True)
-    return generate_data(size, max_value)
+    return generate_uniform(size, max_value)
 
 
-def prepare_and_save_plot(durations: List[Tuple], y_label: str):
+def prepare_and_save_durations_plot(durations: List[Tuple], y_label: str):
     algs = list(set([d[0] for d in durations]))
     for alg in algs:
         alg_size = [a[1] for a in durations if a[0] == alg]
@@ -84,7 +84,8 @@ def prepare_and_save_plot(durations: List[Tuple], y_label: str):
     plt.legend(algs)
     plt.xlabel("Problem size")
     plt.ylabel(y_label)
-    plt.savefig("bin_packing_result.png")
+    plt.savefig("bin_packing_complexity.png")
+    plt.clf()
 
 
 def print_info(iter_index: int,
@@ -124,6 +125,22 @@ def save_info_to_file(iter_index: int,
                 f.write('\n')
 
 
+def prepare_and_save_memory_plot(memory_complexity: List[Tuple]):
+    algs = list(set([c[0] for c in memory_complexity]))
+    for alg in algs:
+        alg_size = [a[1] for a in memory_complexity if a[0] == alg]
+        alg_memory = [a[2] for a in memory_complexity if a[0] == alg]
+        if len(alg_size) == 1:
+            plt.scatter(alg_size, alg_memory, marker='.')
+        else:
+            plt.plot(alg_size, alg_memory)
+    plt.legend(algs)
+    plt.xlabel("Problem size")
+    plt.ylabel("Memory taken [bytes]")
+    plt.savefig("bin_packing_memory.png")
+    plt.clf()
+
+
 def main():
     args = get_args()
     params = parse_params(args.input)
@@ -136,17 +153,19 @@ def main():
         write_info = print_info
     else:
         with open('output.txt', 'w') as f:
-            f.write('Bin packing solver')
-            f.write(f'Bins capacity: {params["bins_capacity"]}')
-            f.write(f'Algs : {params["algorithms"]}')
+            f.write('Bin packing solver\n')
+            f.write(f'Bins capacity: {params["bins_capacity"]}\n')
+            f.write(f'Algs : {params["algorithms"]}\n')
 
         write_info = save_info_to_file
 
     durations = []
+    memory_complexity = []
     for index, size in enumerate(params['problem_sizes']):
         generated = generate(size, params['bins_capacity'], params['cumulated_distr'])
 
         durations_for_size = []
+        memory_for_size = []
         results_for_size = []
         for alg in params['algorithms']:
             if params['type'] == 'time':
@@ -154,7 +173,9 @@ def main():
                                                      generated,
                                                      params['bins_capacity'])
             else:
-                duration, res = mappings.elementary_steps_algs_mapping[alg](generated, params['bins_capacity'])
+                duration, memory_taken, res = mappings.elementary_steps_algs_mapping[alg](generated,
+                                                                                          params['bins_capacity'])
+                memory_for_size.append(memory_taken)
 
             durations_for_size.append((alg, size, duration))
             results_for_size.append(res)
@@ -168,8 +189,13 @@ def main():
                    params["complexity_unit"])
 
         durations.extend(durations_for_size)
+        memory_complexity.extend(memory_for_size)
 
-    prepare_and_save_plot(durations, params["complexity_unit"])
+    prepare_and_save_durations_plot(durations, params["complexity_unit"])
+    if memory_complexity:
+        prepare_and_save_memory_plot(list(zip([d[0] for d in durations],
+                                              [d[1] for d in durations],
+                                              memory_complexity)))
 
 
 if __name__ == '__main__':

@@ -2,8 +2,8 @@
   "bins_capacity": 10,
 
   "problem_size_from": 1,
-  "problem_size_to": 3401,
-  "algorithms": ["nf", "ff", "lf", "bf", "wf","nfd", "ffd", "lfd", "bfd", "wfd"],
+  "problem_size_to": 1000,
+  "algorithms": ["nf", "ff", "lf", "bf", "wf"],
   "distribution_file": "distrib.txt",
-  "type": "elementary"
+  "type": "elem"
 }
