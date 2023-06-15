@@ -79,7 +79,7 @@ def worst_fit(elements: List[int], capacity: int) -> List[List[int]]:
 
 
 def next_fit(elements: List[int], capacity: int) -> List[List[int]]:
-    """Put element into last bin, start new if bin if necessary."""
+    """Put element into last bin, start new bin if necessary."""
     bins = [Bin()]
     for element in elements:
         if bins[-1].cap_taken + element <= capacity:
@@ -93,7 +93,7 @@ def next_fit(elements: List[int], capacity: int) -> List[List[int]]:
 
 
 def optimal_solution(elements: List[int], capacity: int) -> List[List[int]]:
-    """Try next fit for all permutations and take best solution."""
+    """Try next fit for all permutations and take the best solution."""
     best_sol = [[e] for e in elements]
     for permutation in permutations(elements):
         solution = next_fit(permutation, capacity)

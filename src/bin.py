@@ -7,7 +7,7 @@ class Bin:
         self.__items = []
         self.__cap_taken = 0
 
-    def add(self, element: int):
+    def add(self, element: int) -> None:
         self.__items.append(element)
         self.__cap_taken += element
 

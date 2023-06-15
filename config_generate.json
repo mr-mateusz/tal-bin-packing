@@ -1,6 +1,5 @@
 {
   "bins_capacity": 10,
-
   "problem_size_from": 1,
   "problem_size_to": 1000,
   "algorithms": ["nf", "ff", "lf", "bf", "wf"],
